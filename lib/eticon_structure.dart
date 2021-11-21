@@ -1,12 +1,10 @@
-library eticon_structure;
-
-import 'dart:developer';
+library eticon_struct;
 
 import 'dart:io';
 
-import 'package:eticon_structure/src/creator.dart';
-import 'package:eticon_structure/src/print.dart';
-import 'package:eticon_structure/src/templ.dart';
+import 'package:eticon_struct/src/creator.dart';
+import 'package:eticon_struct/src/print.dart';
+import 'package:eticon_struct/src/templ.dart';
 import 'package:process_run/shell.dart';
 
 ///Function to create project structure
@@ -159,7 +157,8 @@ Future<void> createSingleton(String name) async {
     return;
   }
   Creator curDir = Creator(screenPath);
-  await curDir.createFile(fileName: 'sg_${name}.dart', templates: Templates.singleton(name));
+  await curDir.createFile(
+      fileName: 'sg_${name}.dart', templates: Templates.singleton(name));
   if (await File('lib/project_utils/project_utils.dart').exists()) {
     String old =
         await File('lib/project_utils/project_utils.dart').readAsString();
