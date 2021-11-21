@@ -182,6 +182,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
     String className = _fileName2ClassName(name);
     String packName =
         Directory.current.toString().split('/').last.replaceAll('\'', '');
+    if (packName.contains('\\')) {
+      packName = packName.split('\\').last.replaceAll('\'', '');
+    }
     return '''
 import 'package:flutter/material.dart';
 import 'package:PACK/project_utils/project_utils.dart';
@@ -221,6 +224,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
     String className = _fileName2ClassName(name);
     String packName =
         Directory.current.toString().split('/').last.replaceAll('\'', '');
+    if (packName.contains('\\')) {
+      packName = packName.split('\\').last.replaceAll('\'', '');
+    }
     return '''
 import 'package:flutter/material.dart';
 import 'package:PACK/project_utils/project_utils.dart';

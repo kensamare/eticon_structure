@@ -1,5 +1,5 @@
 import 'package:args/args.dart';
-import 'package:eticon_structure/eticon_structure.dart' as eticon_structure;
+import 'package:eticon_struct/eticon_structure.dart' as eticon_struct;
 
 ///Create new cubit in project
 void main(List<String> args) {
@@ -18,5 +18,5 @@ void main(List<String> args) {
   });
   parser.parse(args);
 
-  eticon_structure.createCubitByPath(name, path);
+  eticon_struct.createCubitByPath(name, path);
 }

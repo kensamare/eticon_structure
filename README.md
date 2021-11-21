@@ -1,39 +1,53 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+[comment]: <> (<!-- )
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
+[comment]: <> (This README describes the package. If you publish this package to pub.dev,)
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
+[comment]: <> (this README's contents appear on the landing page for your package.)
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+[comment]: <> (For information about how to write a good package README, see the guide for)
 
-## Features
+[comment]: <> ([writing package pages]&#40;https://dart.dev/guides/libraries/writing-package-pages&#41;. )
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+[comment]: <> (For general information about developing packages, see the Dart guide for)
 
-## Getting started
+[comment]: <> ([creating packages]&#40;https://dart.dev/guides/libraries/create-library-packages&#41;)
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+[comment]: <> (and the Flutter guide for)
 
-## Usage
+[comment]: <> ([developing packages and plugins]&#40;https://flutter.dev/developing-packages&#41;. )
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+[comment]: <> (-->)
 
-```dart
-const like = 'sample';
-```
+[comment]: <> (<!-- TODO: Put a short description of the package here that helps potential users -->)
 
-## Additional information
+[comment]: <> (<!-- know whether this package might be useful for them. -->)
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+[comment]: <> (<!-- ## Features -->)
+
+[comment]: <> (<!-- TODO: List what your package can do. Maybe include images, gifs, or videos. -->)
+
+[comment]: <> (<!-- ## Getting started -->)
+
+[comment]: <> (<!-- TODO: List prerequisites and provide or point to information on how to -->)
+
+[comment]: <> (<!-- start using the package. -->)
+
+[comment]: <> (<!-- ## Usage -->)
+
+[comment]: <> (<!-- TODO: Include short and useful examples for package users. Add longer examples -->)
+
+[comment]: <> (<!-- to `/example` folder.  -->)
+
+[comment]: <> (<!-- ```dart -->)
+
+[comment]: <> (<!-- const like = 'sample'; -->)
+
+[comment]: <> (<!-- ``` -->)
+
+[comment]: <> (<!-- ## Additional information -->)
+
+[comment]: <> (<!-- TODO: Tell users more about the package: where to find more information, how to  -->)
+
+[comment]: <> (<!-- contribute to the package, how to file issues, what response they can expect  -->)
+
+[comment]: <> (<!-- from the package authors, and more. -->)
