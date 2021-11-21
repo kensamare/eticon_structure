@@ -136,14 +136,16 @@ flutter pub run eticon_struct:cubit --name=my_cubit --path=project_utils
 ## Создание Singleton-ов
 Вы можете создавать singleton-ы используя команду:
 ```bash
-flutter pub run eticon_struct:cubit --name=<file_name>
+flutter pub run eticon_struct:singleton --name=<file_name>
 ```
 
 Пример:
 ```bash
-flutter pub run eticon_struct:cubit --name=my_settings
+flutter pub run eticon_struct:singleton --name=my_settings
 ```
-
+**ОБРАТИТЕ ВНИМАНИЕ!!!**
+> Имя указывется аналогично тому, как именуются файлы в Dart, т.е используя _ как разделитель слов.
+  
 После выполнения данной команды в project_utils появится новая директория singletons в которой будут содержатся
 все созданные вами singleton-ы.
 
