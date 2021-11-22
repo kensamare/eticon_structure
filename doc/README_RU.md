@@ -14,7 +14,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^1.0.0
-  eticon_struct:
+  eticon_struct: ^1.0.0
 ```
 
 ## Структура проекта

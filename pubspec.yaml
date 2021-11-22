@@ -1,6 +1,6 @@
 name: eticon_struct
-description: Package for creating the project structure and individual elements.
-version: 1.0.0-pre
+description: Package for creating the project structure and individual elements. Will help you create the necessary elements in one line!
+version: 1.0.0
 homepage: https://github.com/kensamare/eticon_structure
 
 environment:

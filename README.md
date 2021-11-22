@@ -1,53 +1,171 @@
-[comment]: <> (<!-- )
+<img src="https://user-images.githubusercontent.com/36012868/130392291-52b82b9b-fd52-424b-ba5a-b7630e9cf343.png" data-canonical-src="https://user-images.githubusercontent.com/36012868/130392291-52b82b9b-fd52-424b-ba5a-b7630e9cf343.png" height="200" width=400/>
 
-[comment]: <> (This README describes the package. If you publish this package to pub.dev,)
+[![English](https://img.shields.io/badge/Language-English-blue?style=plastic)](https://github.com/kensamare/eticon_structure/blob/master/doc/README_RU.md)
 
-[comment]: <> (this README's contents appear on the landing page for your package.)
+# ETICON Struct
 
-[comment]: <> (For information about how to write a good package README, see the guide for)
+A package specifically for creating a project structure and individual elements.
 
-[comment]: <> ([writing package pages]&#40;https://dart.dev/guides/libraries/writing-package-pages&#41;. )
+## Installation into a project
 
-[comment]: <> (For general information about developing packages, see the Dart guide for)
+Add eticon_struct: 1.0.0 to dev_dependencies pubspec.yaml as shown below:
+```dart
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^1.0.0
+  eticon_struct: ^1.0.0
+```
 
-[comment]: <> ([creating packages]&#40;https://dart.dev/guides/libraries/create-library-packages&#41;)
+## Project structure
 
-[comment]: <> (and the Flutter guide for)
+The project structure looks like this:
 
-[comment]: <> ([developing packages and plugins]&#40;https://flutter.dev/developing-packages&#41;. )
+```bash
+├── 📁 assets
+│   ├── 📁 fonts
+│   │   └── 📄 empty.ttf
+│   ├── 📁 icon
+│   │   └── 🖼 empty.png
+│   └── 📁 image
+│       └── 🖼 empty.png
+└── 📁 lib
+    ├── 📄 main.dart
+    ├── 📁 models
+    │   └── 📄 about_models.txt
+    ├── 📁 project_utils
+    │   ├── 📄 project_colors.dart
+    │   ├── 📄 project_icons.dart
+    │   └── 📄 project_utils.dart
+    ├── 📁 project_widgets
+    │   ├── 📄 project_appbar.dart
+    │   ├── 📄 project_text.dart
+    │   └── 📄 project_widgets.dart
+    └── 📁 screens
+        └── 📁 main_screen
+            ├── 📁 cubit
+            │   ├── 📄 cb_main_screen.dart
+            │   └── 📄 st_main_screen.dart
+            ├── 📄 main_screen.dart
+            └── 📄 main_screen_provider.dart
+  ```
+## Creating a project structure
 
-[comment]: <> (-->)
+In order to create the structure described above, after a new flutter project has been created,
+execute command in terminal:
+```bash
+flutter pub run eticon_struct:create
+```
+Basically created:
+1. Utilities of the project.
+2. Global widgets.
+3. Assets.
+4. Folder for models.
+5. Basic Stateless screen with a cubit connected to it for managing states.
 
-[comment]: <> (<!-- TODO: Put a short description of the package here that helps potential users -->)
+A set of basic libraries is also added to the project:
+1. [eticon_api](https://pub.dev/packages/eticon_api)
+2. [get](https://pub.dev/packages/get)
+3. [flutter_screenutil](https://pub.dev/packages/flutter_screenutil)
+4. [flutter_bloc](https://pub.dev/packages/flutter_bloc)
+5. [flutter_svg](https://pub.dev/packages/flutter_svg)
+6. [get_storage](https://pub.dev/packages/get_storage)
+7. [intl](https://pub.dev/packages/intl)
+8. [sentry_flutter](https://pub.dev/packages/sentry_flutter)
 
-[comment]: <> (<!-- know whether this package might be useful for them. -->)
 
-[comment]: <> (<!-- ## Features -->)
+If you want to create a basic screen without a qubit, then use the special flag --without-cubit:
+```bash
+flutter pub run eticon_struct:create --without-cubit
+```
 
-[comment]: <> (<!-- TODO: List what your package can do. Maybe include images, gifs, or videos. -->)
+If you want to create a basic screen as a Stateful Widget, then use the special flag --stf
+```bash
+flutter pub run eticon_struct:create --stf
+```
 
-[comment]: <> (<!-- ## Getting started -->)
+You can also use these two flags at the same time:
+```bash
+flutter pub run eticon_struct:create --stf --without-cubit
+```
+## Creating new screens in the project
 
-[comment]: <> (<!-- TODO: List prerequisites and provide or point to information on how to -->)
+You can create new screens in a project using a special command:
+```bash
+flutter pub run eticon_struct:screen --name=<file_name>
+```
 
-[comment]: <> (<!-- start using the package. -->)
+Example:
+```bash
+flutter pub run eticon_struct:screen --name=new
+```
 
-[comment]: <> (<!-- ## Usage -->)
+After executing this command, a new screen will be added to the project: new_screen.
 
-[comment]: <> (<!-- TODO: Include short and useful examples for package users. Add longer examples -->)
+**NOTE!!!**
+> The name is specified in the same way as files are named in Dart, that is, using _ as a word separator.
+> Do not add "screen" at the end, it happens automatically when the screen is created!
 
-[comment]: <> (<!-- to `/example` folder.  -->)
+Similar to creating the project structure, you can use the flags: --stf (to create a screen as a Stateful Widget)
+and --without-cubit (to create the screen without cubit).
 
-[comment]: <> (<!-- ```dart -->)
+Example:
+```bash
+flutter pub run eticon_struct:screen --name=order_schedule --stf --without-cubit
+```
+## Creating new Cubits not tied to a specific screen
 
-[comment]: <> (<!-- const like = 'sample'; -->)
+You can create new cubits not tied to a specific screen:
+```bash
+flutter pub run eticon_struct:cubit --name=<file_name> --path=<your_path>
+```
 
-[comment]: <> (<!-- ``` -->)
+Example:
+```bash
+flutter pub run eticon_struct:cubit --name=my_cubit --path=project_utils
+```
 
-[comment]: <> (<!-- ## Additional information -->)
+After executing this command, a new cubit will be added to the project_utils directory: my_cubit.
 
-[comment]: <> (<!-- TODO: Tell users more about the package: where to find more information, how to  -->)
+**NOTE!!!**
+> The name is specified in the same way as files are named in Dart, that is, using _ as a word separator.
+> path is the directory where the new cubit will be created, keep in mind that path is substituted into the following line:
+> lib / <path>. Thus, if you specify --path = project_widgets, then the path to cubit creation will be as follows:
+> lib / project_widgets.
 
-[comment]: <> (<!-- contribute to the package, how to file issues, what response they can expect  -->)
+## Creating Singletons
+You can create singleton using the command:
+```bash
+flutter pub run eticon_struct:singleton --name=<file_name>
+```
 
-[comment]: <> (<!-- from the package authors, and more. -->)
+Example:
+```bash
+flutter pub run eticon_struct:singleton --name=my_settings
+```
+
+After executing this command, a new directory, singletons, will appear in project_utils, which will contain
+all singleton you created.
+
+Result of the created singleton:
+```dart
+class SgMySettings {
+  SgMySettings._();
+
+  static SgMySettings instance = SgMySettings._();
+  
+  static int cnt = 0; //some variables 
+  
+  //Some Method
+  void inc(){
+    cnt++;
+  }
+}
+```
+
+This class will be automatically added to project_utils.dart.
+
+## Contacts
+If you still have questions or have any suggestions to improve this package.
+You can contact us by mail: <main@eticon.ru>
+
