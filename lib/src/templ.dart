@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:eticon_struct/src/metadata.dart';
+
 ///Templates class, to generate project files
 class Templates {
   ///Templ about models
@@ -33,11 +35,11 @@ class User {
 }
   ''';
 
-  ///Templ project_colors.dart
+  ///Templ pj_colors.dart
   static String colors = '''
 import 'package:flutter/material.dart';
 
-class ProjectColors {
+class PjColors {
   static const Color white = Color.fromRGBO(255, 255, 255, 1);
   static const Color black = Color.fromRGBO(0, 0, 0, 1);
   //EN
@@ -47,9 +49,9 @@ class ProjectColors {
 }
   ''';
 
-  ///Templ project_icons.dart
+  ///Templ pj_icons.dart
   static String icons = '''
-class ProjectIcons {
+class PjIcons {
   //EN
   //Add your icons as shown below:
   //RU
@@ -59,25 +61,25 @@ class ProjectIcons {
 }
   ''';
 
-  ///Templ project_utils.dart
+  ///Templ pj_utils.dart
   static String utils = '''
-export 'project_icons.dart';
-export 'project_colors.dart';
+export 'pj_icons.dart';
+export 'pj_colors.dart';
 ///EN
 ///Add your utilities to this class, or use export
 ///RU
 ///Добавляйте свои утилиты в данный класс, или используйте export
-class ProjectUtils{
+class PjUtils{
 
 }
   ''';
 
-  ///Templ project_appbar.dart
+  ///Templ pj_appbar.dart
   static String appBar = '''
 import 'package:flutter/material.dart';
 
-class ProjectAppBar extends StatelessWidget implements PreferredSizeWidget{
-  const ProjectAppBar({Key? key}) : super(key: key);
+class PjAppBar extends StatelessWidget implements PreferredSizeWidget{
+  const PjAppBar({Key? key}) : super(key: key);
 
   @override
   Size get preferredSize => const Size.fromHeight(50);
@@ -89,18 +91,18 @@ class ProjectAppBar extends StatelessWidget implements PreferredSizeWidget{
 }
   ''';
 
-  ///Templ project_text.dart
+  ///Templ pj_text.dart
   static String text = '''
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ProjectText extends StatelessWidget {
+class PjText extends StatelessWidget {
   final String text;
   final Color? color;
   final double? fontSize;
   final FontWeight? fontWeight; 
 
-  const ProjectText(
+  const PjText(
       {Key? key, required this.text, this.color, this.fontSize = 14, this.fontWeight}) : super(key : key);
 
   @override
@@ -117,14 +119,14 @@ class ProjectText extends StatelessWidget {
 }
   ''';
 
-  ///Templ project_widgets.dart
+  ///Templ pj_widgets.dart
   static String widgets = '''
 //EN
 //Add newly created global widgets here
 //RU
 //Добавляйте сюда новосозданные глобальные виджеты 
-export 'project_text.dart';
-export 'project_appbar.dart';
+export 'pj_text.dart';
+export 'pj_appbar.dart';
   ''';
 
   ///Templ main.dart
@@ -144,7 +146,6 @@ void main() async {
   Api.init(
       baseUrl:
           'https://your_api.com/api/v1/'); //Input your URL. Learn more eticon_api on pub.dev
-  Api.loadTokenFromMemory();
   runApp(MyApp());
 }
 
@@ -172,24 +173,40 @@ class MyApp extends StatelessWidget {
   ///Templ Stateful screen
   static String STF(String name, {bool withCubit = true}) {
     String cubit = '';
+    String builder = '';
     if (withCubit) {
       cubit = '''
 import 'cubit/cb_${name}_screen.dart';
 import 'cubit/st_${name}_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
       ''';
+      builder = '''return Scaffold(
+      appBar: const PjAppBar(),
+      body: BlocBuilder<CbNAMEScreen, StNAMEScreen>(
+        builder: (context, state){
+          if(state is StNAMEScreenLoading){
+            return const Center(child: CupertinoActivityIndicator(),);
+          }
+          if(state is StNAMEScreenLoaded){
+            return Container(color: Colors.green);
+          }
+          if(state is StNAMEScreenError){
+            return Container(color: Colors.red);
+          }
+          return Container(color: Colors.grey);
+        },
+      ),
+    );
+      ''';
     }
     String className = _fileName2ClassName(name);
-    String packName =
-        Directory.current.toString().split('/').last.replaceAll('\'', '');
-    if (packName.contains('\\')) {
-      packName = packName.split('\\').last.replaceAll('\'', '');
-    }
     return '''
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:PACK/project_utils/project_utils.dart';
-import 'package:PACK/project_widgets/project_widgets.dart';
+import 'package:${SgMetadata.instance.packName}/project_utils/pj_utils.dart';
+import 'package:${SgMetadata.instance.packName}/project_widgets/pj_widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 CUBIT
 
 class NAMEScreen extends StatefulWidget {
@@ -202,36 +219,51 @@ class NAMEScreen extends StatefulWidget {
 class _NAMEScreenState extends State<NAMEScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    ${withCubit ? builder : 'return Container();'}
   }
 }
     '''
         .replaceAll('NAME', className)
-        .replaceAll('PACK', packName)
         .replaceAll('CUBIT', cubit);
   }
 
   ///Templ Stateless screen
   static String STL(String name, {bool withCubit = true}) {
     String cubit = '';
+    String builder = '';
     if (withCubit) {
       cubit = '''
 import 'cubit/cb_${name}_screen.dart';
 import 'cubit/st_${name}_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
       ''';
+      builder = '''return Scaffold(
+      appBar: const PjAppBar(),
+      body: BlocBuilder<CbNAMEScreen, StNAMEScreen>(
+        builder: (context, state){
+          if(state is StNAMEScreenLoading){
+            return const Center(child: CupertinoActivityIndicator(),);
+          }
+          if(state is StNAMEScreenLoaded){
+            return Container(color: Colors.green);
+          }
+          if(state is StNAMEScreenError){
+            return Container(color: Colors.red);
+          }
+          return Container(color: Colors.grey);
+        },
+      ),
+    );
+      ''';
     }
     String className = _fileName2ClassName(name);
-    String packName =
-        Directory.current.toString().split('/').last.replaceAll('\'', '');
-    if (packName.contains('\\')) {
-      packName = packName.split('\\').last.replaceAll('\'', '');
-    }
     return '''
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:PACK/project_utils/project_utils.dart';
-import 'package:PACK/project_widgets/project_widgets.dart';
+import 'package:${SgMetadata.instance.packName}/project_utils/pj_utils.dart';
+import 'package:${SgMetadata.instance.packName}/project_widgets/pj_widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 CUBIT
 
 class NAMEScreen extends StatelessWidget {
@@ -239,12 +271,11 @@ class NAMEScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    ${withCubit ? builder : 'return Container();'}
   }
 }
     '''
         .replaceAll('NAME', className)
-        .replaceAll('PACK', packName)
         .replaceAll('CUBIT', cubit);
   }
 
@@ -279,11 +310,19 @@ class StNAMEError extends StNAME{
     return '''
 import 'st_FILE.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eticon_api/eticon_api.dart';
 
 class CbNAME extends Cubit<StNAME> {
-  CbNAME() : super(StNAMEInit());
+  CbNAME() : super(StNAMELoading());
   
   Future<void> getData() async {
+    try {
+      Map<String, dynamic> response =
+          await Api.get(method: 'method', testMode: true);
+      emit(StNAMELoaded());
+    } on APIException catch (e) {
+      emit(StNAMEError(error: e.code));
+    }
   }
 }
     '''

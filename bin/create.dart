@@ -2,7 +2,7 @@ import 'package:args/args.dart';
 import 'package:eticon_struct/eticon_structure.dart' as eticon_struct;
 
 ///Create project structure
-void main(List<String> args) {
+void main(List<String> args) async {
   var parser = ArgParser();
   bool stf = false;
   bool withCubit = true;
@@ -13,6 +13,7 @@ void main(List<String> args) {
     withCubit = !val;
   });
   parser.parse(args);
-
-  eticon_struct.createStructure(stf: stf, withCubit: withCubit);
+  eticon_struct.EticonStruct struct = eticon_struct.EticonStruct();
+  await struct.checkGit();
+  struct.createStructure(stf: stf, withCubit: withCubit);
 }

@@ -2,7 +2,7 @@ import 'package:args/args.dart';
 import 'package:eticon_struct/eticon_structure.dart' as eticon_struct;
 
 ///Create new singletons in project_utils
-void main(List<String> args) {
+void main(List<String> args) async {
   var parser = ArgParser();
   String name = 'empty';
   parser.addOption('name', callback: (val) {
@@ -11,6 +11,7 @@ void main(List<String> args) {
     }
   });
   parser.parse(args);
-
-  eticon_struct.createSingleton(name);
+  eticon_struct.EticonStruct struct = eticon_struct.EticonStruct();
+  await struct.checkGit();
+  struct.createSingleton(name);
 }

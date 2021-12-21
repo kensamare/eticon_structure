@@ -2,7 +2,7 @@ import 'package:args/args.dart';
 import 'package:eticon_struct/eticon_structure.dart' as eticon_struct;
 
 ///Create new screen in project directory screens
-void main(List<String> args) {
+void main(List<String> args) async {
   var parser = ArgParser();
   String name = 'empty';
   bool stf = false;
@@ -20,5 +20,7 @@ void main(List<String> args) {
   });
   parser.parse(args);
 
-  eticon_struct.createScreen(name, stf, withCubit);
+  eticon_struct.EticonStruct struct = eticon_struct.EticonStruct();
+  await struct.checkGit();
+  struct.createScreen(name, stf, withCubit);
 }
