@@ -151,6 +151,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3"
+  git:
+    dependency: "direct main"
+    description:
+      name: git
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   glob:
     dependency: transitive
     description:
@@ -158,13 +165,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
-  grapheme_splitter:
-    dependency: transitive
-    description:
-      name: grapheme_splitter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   http:
     dependency: transitive
     description:
@@ -179,13 +179,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
-  json_ast:
-    dependency: "direct main"
-    description:
-      name: json_ast
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.5"
   lints:
     dependency: transitive
     description:

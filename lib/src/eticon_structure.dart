@@ -29,7 +29,7 @@ class EticonStruct {
 
   Future<void> checkGit() async {
     try {
-      await Shell(commandVerbose: false).run('git status');
+      await Shell(commandVerbose: false, workingDirectory: projectDir).run('git status');
       SgMetadata.instance.setGit(true);
     } catch (e) {
       SgMetadata.instance.setGit(false);
@@ -38,7 +38,7 @@ class EticonStruct {
   }
 
   ///Function to create pj structure
-  Future<String> createStructure({
+  Future<int> createStructure({
     bool stf = false,
     bool withCubit = true,
     List<String> libs = const [
@@ -55,7 +55,7 @@ class EticonStruct {
     printYellow('Create Project Utils...');
     if (await Directory('${projectDir}lib/project_utils').exists()) {
       printRed('Project Utils already exists');
-      return 'Project Utils already exists';
+      return 1;
     }
     Creator curDir = Creator('${projectDir}lib/project_utils');
     await curDir.createFile(
@@ -67,7 +67,7 @@ class EticonStruct {
     printYellow('Create Project Widgets...');
     if (await Directory('${projectDir}lib/project_widgets').exists()) {
       printRed('Project Widgets already exists');
-      return 'Project Widgets already exists';
+      return 2;
     }
     curDir.setDir('${projectDir}lib/project_widgets');
     await curDir.createFile(
@@ -79,7 +79,7 @@ class EticonStruct {
     printYellow('Create Models...');
     if (await Directory('${projectDir}lib/models').exists()) {
       printRed('Models already exists');
-      return 'Models already exists';
+      return 3;
     }
     curDir.setDir('${projectDir}lib/models');
     await curDir.createFile(
@@ -87,7 +87,7 @@ class EticonStruct {
     printYellow('Create Assets...');
     if (await Directory('${projectDir}assets').exists()) {
       printRed('Assets already exists');
-      return 'Assets already exists';
+      return 4;
     }
     curDir.setDir('${projectDir}assets');
     await curDir.createFile(fileName: 'icon/empty.png', templates: '');
@@ -95,7 +95,7 @@ class EticonStruct {
     await curDir.createFile(fileName: 'fonts/empty.ttf', templates: '');
     if (!await createScreen('main', stf, withCubit)) {
       printRed('main_screen already exists');
-      return 'main_screen already exists';
+      return 5;
     }
     printYellow('Remodel main.dart...');
     curDir.setDir('${projectDir}lib');
@@ -108,12 +108,12 @@ class EticonStruct {
     await File('${projectDir}pubspec.yaml').writeAsString(ps);
     if (SgMetadata.instance.git) {
       printYellow('Add to git...');
-      await Shell(commandVerbose: false).run('git add ${projectDir}lib');
-      await Shell(commandVerbose: false).run('git add ${projectDir}assets');
+      await Shell(commandVerbose: false, workingDirectory: projectDir).run('git add lib');
+      await Shell(commandVerbose: false, workingDirectory: projectDir).run('git add assets');
     }
     await _addLibrary(libs);
     printGreen('Create structure success');
-    return '';
+    return 0;
   }
 
   ///Function to add default libraries from pub.dev
@@ -160,8 +160,8 @@ class EticonStruct {
     if (withCubit)
       await _createScreenCubit(name);
     else if (SgMetadata.instance.git) {
-      await Shell(commandVerbose: false)
-          .run('git add ${projectDir}lib/screens/${name}_screen');
+      await Shell(commandVerbose: false, workingDirectory: projectDir)
+          .run('''git add lib/screens/${name}_screen/''');
     }
     printGreen('Success create screen "$name"');
     return true;
@@ -185,8 +185,7 @@ class EticonStruct {
     await curDir.createFile(
         fileName: '${name}_provider.dart', templates: Templates.provider(name));
     if (SgMetadata.instance.git) {
-      await Shell(commandVerbose: false)
-          .run('git add ${projectDir}lib/screens/$name');
+      await Shell(commandVerbose: false, workingDirectory: projectDir).run('git add lib/screens/$name');
     }
     return true;
   }
@@ -207,6 +206,10 @@ class EticonStruct {
         fileName: 'st_${name}.dart', templates: Templates.cubitState(name));
     await curDir.createFile(
         fileName: 'cb_${name}.dart', templates: Templates.screenCubit(name));
+    if (SgMetadata.instance.git) {
+      print(screenPath);
+      await Shell(commandVerbose: false, workingDirectory: projectDir).run('git add \"$screenPath\"');
+    }
     printGreen('Create cubit "$name" success');
     return true;
   }
@@ -228,6 +231,10 @@ class EticonStruct {
       String newExport = '''export 'singletons/sg_${name}.dart';\n''';
       await File('${projectDir}lib/project_utils/pj_utils.dart')
           .writeAsString(newExport + old);
+      if (SgMetadata.instance.git) {
+        await Shell(commandVerbose: false, workingDirectory: projectDir).run('git add lib/project_utils/singletons/sg_${name}.dart');
+      }
+
     }
     printGreen('Create singleton "$name" success');
     return true;

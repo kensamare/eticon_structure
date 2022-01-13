@@ -1,6 +1,6 @@
 name: eticon_struct
 description: Package for creating the project structure and individual elements. Will help you create the necessary elements in one line!
-version: 1.0.1-macos
+version: 1.0.1
 homepage: https://github.com/kensamare/eticon_structure
 
 environment:
@@ -13,7 +13,6 @@ dependencies:
   eticon_api: ^1.3.2
   flutter:
     sdk: flutter
-  json_ast: ^1.0.5
   process_run: ^0.12.2+2
   yaml: ^3.1.0
 
