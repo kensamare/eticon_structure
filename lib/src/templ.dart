@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:eticon_struct/src/metadata.dart';
+import 'package:eticon_struct/src/sg_meta.dart';
 
 ///Templates class, to generate project files
 class Templates {
@@ -92,9 +93,10 @@ class PjAppBar extends StatelessWidget implements PreferredSizeWidget{
   ''';
 
   ///Templ pj_text.dart
-  static String text = '''
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+  static String text() {
+    print(SgMeta.instance.util);
+    return '''
+import 'package:flutter/material.dart';${SgMeta.instance.util ? '''\nimport 'package:flutter_screenutil/flutter_screenutil.dart';''' : ''}
 
 class PjText extends StatelessWidget {
   final String text;
@@ -110,14 +112,15 @@ class PjText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-        fontWeight: FontWeight.w400,
+        fontWeight: fontWeight,
         color: color,
-        fontSize: fontSize!.w,
+        fontSize: fontSize!${SgMeta.instance.util ? '.w' : ''},
       ),
     );
   }
 }
   ''';
+  }
 
   ///Templ pj_widgets.dart
   static String widgets = '''
@@ -131,40 +134,57 @@ export 'pj_appbar.dart';
 
   ///Templ main.dart
   static String main({bool withCubit = true}) {
-    return '''
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:eticon_api/eticon_api.dart';
-import 'screens/main_screen/main_screen${withCubit ? '_provider' : ''}.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await GetStorage.init();
-  Api.init(
-      baseUrl:
-          'https://your_api.com/api/v1/'); //Input your URL. Learn more eticon_api on pub.dev
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(375, 812), //Default size of Iphone XR and 11
-      builder: () => const GetCupertinoApp(
-        localizationsDelegates: [
+    String mainUtil = '''return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      builder: () => ${SgMeta.instance.getL ? 'Get' : ''}CupertinoApp(
+        builder: (context, widget) {
+          ScreenUtil.setContext(context);
+          return MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              child: widget!);
+        },
+        localizationsDelegates: const [
           DefaultMaterialLocalizations.delegate,
           DefaultWidgetsLocalizations.delegate,
           DefaultCupertinoLocalizations.delegate,
         ],
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-        home: MainScreen${withCubit ? 'Provider' : ''}(),
+        home: const MainScreen${withCubit ? 'Provider' : ""}(),
       ),
     );
+    ''';
+    String mainClear =
+        '''return ${SgMeta.instance.getL ? 'Get' : ''}CupertinoApp(
+      localizationsDelegates: const [
+        DefaultMaterialLocalizations.delegate,
+        DefaultWidgetsLocalizations.delegate,
+        DefaultCupertinoLocalizations.delegate,
+      ],
+      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      home: const MainScreen${withCubit ? 'Provider' : ""}(),
+    );
+    ''';
+
+    return '''
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';${SgMeta.instance.util ? '''\nimport 'package:flutter_screenutil/flutter_screenutil.dart';''' : ''}${SgMeta.instance.getL ? '''\nimport 'package:get/get.dart';''' : ''}${SgMeta.instance.storage ? '''\nimport 'package:get_storage/get_storage.dart';''' : ''}${SgMeta.instance.api ? '''\nimport 'package:eticon_api/eticon_api.dart';''' : ''}
+import 'screens/main_screen/main_screen${withCubit ? '_provider' : ''}.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  ${SgMeta.instance.storage ? '''await GetStorage.init();''' : ''}
+  ${SgMeta.instance.api ? '''  Api.init(
+      baseUrl:
+          'https://your_api.com/api/v1/'); //Input your URL. Learn more eticon_api on pub.dev''' : ''}
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    ${SgMeta.instance.util ? mainUtil : mainClear}
   }
 }
   ''';
@@ -204,9 +224,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:${SgMetadata.instance.packName}/project_utils/pj_utils.dart';
-import 'package:${SgMetadata.instance.packName}/project_widgets/pj_widgets.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
+import 'package:${SgMetadata.instance.packName}/project_widgets/pj_appbar.dart';${SgMeta.instance.util ? '''\nimport 'package:flutter_screenutil/flutter_screenutil.dart';''' : ''}${SgMeta.instance.getL ? '''\nimport 'package:get/get.dart';''' : ''}
 CUBIT
 
 class NAMEScreen extends StatefulWidget {
@@ -261,9 +279,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:${SgMetadata.instance.packName}/project_utils/pj_utils.dart';
-import 'package:${SgMetadata.instance.packName}/project_widgets/pj_widgets.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
+import 'package:${SgMetadata.instance.packName}/project_widgets/pj_appbar.dart';${SgMeta.instance.util ? '''\nimport 'package:flutter_screenutil/flutter_screenutil.dart';''' : ''}${SgMeta.instance.getL ? '''\nimport 'package:get/get.dart';''' : ''}
 CUBIT
 
 class NAMEScreen extends StatelessWidget {
@@ -309,20 +325,19 @@ class StNAMEError extends StNAME{
     String className = _fileName2ClassName(name);
     return '''
 import 'st_FILE.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eticon_api/eticon_api.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';${SgMeta.instance.api ? '''\nimport 'package:eticon_api/eticon_api.dart';''' : ''}
 
 class CbNAME extends Cubit<StNAME> {
   CbNAME() : super(StNAMELoading());
   
   Future<void> getData() async {
-    try {
+  ${SgMeta.instance.api ? '''try {
       Map<String, dynamic> response =
           await Api.get(method: 'method', testMode: true);
       emit(StNAMELoaded());
     } on APIException catch (e) {
       emit(StNAMEError(error: e.code));
-    }
+    }''' : ''}
   }
 }
     '''
@@ -356,7 +371,6 @@ class ${className}Provider extends StatelessWidget {
 
   ///Templ end of pubspec.yaml
   static String pubspec = '''
-  # The following section is specific to Flutter.
 flutter:
 
   # The following line ensures that the Material Icons font is
@@ -366,8 +380,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/icon/
-     - assets/image/
+     - assets/icons/
+     - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -1,5 +1,5 @@
 import 'package:args/args.dart';
-import 'package:eticon_struct/eticon_structure.dart' as eticon_struct;
+import 'package:eticon_struct/eticon_struct.dart' as eticon_struct;
 
 ///Create new cubit in project
 void main(List<String> args) async {

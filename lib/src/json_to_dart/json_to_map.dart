@@ -1,3 +1,6 @@
+import 'package:change_case/change_case.dart';
+import 'package:eticon_struct/src/json_to_dart/fields.dart';
+import 'package:eticon_struct/src/json_to_dart/metadata.dart';
 import 'create_model_file.dart';
 
 import 'string_extension.dart';
@@ -7,44 +10,66 @@ class JsonToDart {
       jsonToClass(json, className);
 
   //static Map<String, dynamic> jsonToClass(
-  static String jsonToClass(
-      Map<String, dynamic> json, String className) {
-    Map<String, dynamic> fields = {};
-    Map<String, dynamic> preClass = {
-      "className": className.capitalize(),
-      "fileName": className.fileName
-    };
+  static String jsonToClass(Map<String, dynamic> json, String className) {
+    //Map<String, dynamic> fields = {};
+    MetaDataModel meta = MetaDataModel(
+        className: className.capitalize(),
+        fileName: className.fileName,
+        fields: [],
+        imports: []);
+    // Map<String, dynamic> preClass = {
+    //   "className": className.capitalize(),
+    //   "fileName": className.fileName
+    // };
     String res = '';
     List<String> imports = [];
     json.forEach((key, value) {
+      FieldsModel field = FieldsModel();
       if (value is List) {
         if (value.isNotEmpty) {
           // print(value[0].runtimeType);
           if (value[0] is Map<String, dynamic>) {
-            fields[key.fieldName] = 'List<${key.className}Model>?';
-            imports.add('${key.className}Model'.fileName);
-            res += jsonToClass(value[0], '${key.className}Model');
+            field.type = '${key.toPascalCase()}Model?';
+            field.name = key;
+            //fields[key.fieldName] = '${key.className}Model?';
+            imports.add('${key.toPascalCase()}Model'.toSnakeCase());
+            res += jsonToClass(value[0], '${key.toPascalCase()}Model');
+            // fields[key.fieldName] = 'List<${key.className}Model>?';
+            // imports.add('${key.className}Model'.fileName);
+            // res += jsonToClass(value[0], '${key.className}Model');
           } else {
-            fields[key.fieldName] = 'List<${_typeChecker(value[0]).replaceAll('?', '')}>?';
+            field.type = 'List<${_typeChecker(value[0]).replaceAll('?', '')}>?';
+            field.name = key;
+            // fields[key.fieldName] =
+            //     'List<${_typeChecker(value[0]).replaceAll('?', '')}>?';
           }
         } else {
-          fields[key.fieldName] = 'List<dynamic>?';
+          field.type = 'List<dynamic>?';
+          field.name = key;
         }
       } else if (value is Map<String, dynamic>) {
-        fields[key.fieldName] = '${key.className}Model?';
-        imports.add('${key.className}Model'.fileName);
-        res += jsonToClass(value, '${key.className}Model');
+        field.type = '${key.toPascalCase()}Model?';
+        field.name = key;
+        //fields[key.fieldName] = '${key.className}Model?';
+        imports.add('${key.toPascalCase()}Model'.toSnakeCase());
+        res += jsonToClass(value, '${key.toPascalCase()}Model');
       } else {
-        fields[key.fieldName] = _typeChecker(value);
+        field.type = _typeChecker(value);
+        field.name = key;
+        //fields[key.fieldName] = _typeChecker(value);
       }
+      meta.fields.add(field);
     });
-    preClass['imports'] = imports;
-    preClass["fields"] = fields;
+    meta.imports = imports;
+    // preClass['imports'] = imports;
+    // preClass["fields"] = fields;
     // print('Prepare ${preClass['className']}');
     // print(preClass);
-    CreateModelFile model = CreateModelFile(preClass);
-    
-    return model.dartClass + '\n\n'+res;
+    print(meta.toString());
+    CreateModelFile model = CreateModelFile(meta);
+
+    return model.dartClass + res;
+    // return '';
   }
 
   static String _typeChecker(dynamic value) {

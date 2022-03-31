@@ -25,22 +25,22 @@ The project structure looks like this:
 ├── 📁 assets
 │   ├── 📁 fonts
 │   │   └── 📄 empty.ttf
-│   ├── 📁 icon
+│   ├── 📁 icons
 │   │   └── 🖼 empty.png
-│   └── 📁 image
+│   └── 📁 images
 │       └── 🖼 empty.png
 └── 📁 lib
     ├── 📄 main.dart
     ├── 📁 models
     │   └── 📄 about_models.txt
     ├── 📁 project_utils
-    │   ├── 📄 project_colors.dart
-    │   ├── 📄 project_icons.dart
-    │   └── 📄 project_utils.dart
+    │   ├── 📄 pj_colors.dart
+    │   ├── 📄 pj_icons.dart
+    │   └── 📄 pj_utils.dart
     ├── 📁 project_widgets
-    │   ├── 📄 project_appbar.dart
-    │   ├── 📄 project_text.dart
-    │   └── 📄 project_widgets.dart
+    │   ├── 📄 pj_appbar.dart
+    │   ├── 📄 pj_text.dart
+    │   └── 📄 pj_widgets.dart
     └── 📁 screens
         └── 📁 main_screen
             ├── 📁 cubit

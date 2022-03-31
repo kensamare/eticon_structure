@@ -14,10 +14,15 @@ class Creator {
 
   ///Function to create file
   Future<void> createFile(
-      {required String fileName, required String templates}) async {
+      {required String fileName,
+      required String templates,
+      bool ignorExistCheck = false}) async {
     bool fi = fileName.contains('.');
-    final file = await File('$_dirName/${fi ? fileName : fileName + '.dart'}')
-        .create(recursive: true);
-    file.writeAsString(templates);
+    if (!File('$_dirName/${fi ? fileName : fileName + '.dart'}').existsSync() ||
+        ignorExistCheck) {
+      final file = await File('$_dirName/${fi ? fileName : fileName + '.dart'}')
+          .create(recursive: true);
+      file.writeAsString(templates);
+    }
   }
 }
